@@ -14,7 +14,7 @@ router.post('/registration',
             .isEmail()
             .withMessage('Field is required'),
         check('password')
-            .isLength({ min: 3, max: 12 })
+            .isLength({ min: 3 })
             .withMessage('Password must be longer than 3 and shorter than 12')
     ],
     async (req, res) => {
