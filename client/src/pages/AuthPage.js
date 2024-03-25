@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHttp } from './../hooks/http.hook';
 import { useMessage } from '../hooks/message.hook';
+import { AuthContext } from '../context/AuthContext';
 
 const AuthPage = () => {
+    const auth = useContext(AuthContext)
     const message = useMessage()
     const { loading, error, request, clearError } = useHttp()
 
@@ -22,7 +24,16 @@ const AuthPage = () => {
     const registerHandler = async () => {
         try {
             const data = await request('/api/auth/registration', 'POST', { ...form })
-            console.log(data)
+            message(data.message)
+        } catch (error) {
+
+        }
+    }
+
+    const loginHandler = async () => {
+        try {
+            const data = await request('/api/auth/login', 'POST', { ...form })
+            auth.login(data.token, data.userId)
         } catch (error) {
 
         }
@@ -30,7 +41,7 @@ const AuthPage = () => {
 
     return (
         <div className='auth__page mt-8'>
-            <h1 className=' text-4xl font-bold text-center mb-10'>Cut the link</h1>
+            <h1 className=' text-4xl font-bold text-center mb-10'>Cut-the-link</h1>
 
             <div className="m-auto w-full max-w-lg p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <form className="space-y-6" action="#">
@@ -61,6 +72,7 @@ const AuthPage = () => {
                     <div className='flex gap-10'>
 
                         <button
+                            onClick={loginHandler}
                             type="submit"
                             className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             Login
