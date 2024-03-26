@@ -14,7 +14,7 @@ function App() {
 
         <AuthContext.Provider value={{ token, userId, login, logout, isAuth }}>
             <Navbar />
-            <div className='container mx-auto'>
+            <div className='container max-w-screen-xl mx-auto px-4'>
                 {routes}
             </div>
         </AuthContext.Provider >
